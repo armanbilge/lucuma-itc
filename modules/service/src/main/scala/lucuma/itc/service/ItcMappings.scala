@@ -183,13 +183,12 @@ object ItcMapping extends Encoders {
      env.get[RadialVelocity]("radialVelocity").flatMap(_.toRedshift),
      env.get[Rational]("resolution"),
      env.get[types.numeric.PosBigDecimal]("signalToNoise"),
-     env.get[SpatialProfile]("spatialProfile"),
-     env.get[SpectralDistribution]("spectralDistribution"),
-     env.get[Magnitude]("magnitude")
-    ).traverseN { (wv, sc, rs, r, sn, sp, sd, m) =>
+     env.get[SourceProfile]("sourceProfile"),
+     env.get[Band]("band")
+    ).traverseN { (wv, sc, rs, r, sn, sp, b) =>
       itc
         .calculate(
-          TargetProfile(sp, sd, m, rs),
+          TargetProfile(sp, b, rs),
           ObservingMode.Spectroscopy
             .GmosNorth(wv, GmosNorthDisperser.B480_G5309, GmosNorthFpu.Ifu2Slits, none),
           ItcObservingConditions(
@@ -226,9 +225,8 @@ object ItcMapping extends Encoders {
     (env.get[Wavelength]("wavelength"),
      env.get[RadialVelocity]("radialVelocity").flatMap(_.toRedshift),
      env.get[types.numeric.PosBigDecimal]("signalToNoise"),
-     env.get[SpatialProfile]("spatialProfile"),
-     env.get[SpectralDistribution]("spectralDistribution"),
-     env.get[Magnitude]("magnitude"),
+     env.get[SourceProfile]("sourceProfile"),
+     env.get[Band]("band")
      env.get[List[SpectroscopyParams]]("modes"),
      env.get[ItcObservingConditions]("constraints")
     ).traverseN { (wv, rs, sn, sp, sd, brightness, modes, c) =>
@@ -244,7 +242,7 @@ object ItcMapping extends Encoders {
               }
               itc
                 .calculate(
-                  TargetProfile(sp, sd, brightness, rs),
+                  TargetProfile(sp, b, rs),
                   specMode,
                   c,
                   sn.value
