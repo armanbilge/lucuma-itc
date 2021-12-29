@@ -3,7 +3,6 @@
 
 package lucuma.itc
 
-import cats.syntax.all._
 import coulomb.define.UnitDefinition
 import io.circe.Encoder
 import io.circe.Json
@@ -68,7 +67,7 @@ object ItcSourceDefinition {
           case g: Gaussian =>
             Json.obj(
               "GaussianSource" -> Json.obj(
-                "fwhm" -> Angle.signedDecimalArcseconds.get(g.source.fwhm).asJson
+                "fwhm" -> Angle.signedDecimalArcseconds.get(g.fwhm).asJson
               )
             )
         }
@@ -97,12 +96,14 @@ object ItcSourceDefinition {
             Json.obj("Library" -> Json.obj("LibraryNonStar" -> Json.fromString(s.ocs2Tag)))
           case PlanetaryNebula(s) =>
             Json.obj("Library" -> Json.obj("LibraryNonStar" -> Json.fromString(s.ocs2Tag)))
-          case Quasar(s) =>
+          case Quasar(s)          =>
             Json.obj("Library" -> Json.obj("LibraryNonStar" -> Json.fromString(s.ocs2Tag)))
+          case _                  => // TODO CoolStar and UserDefined
+            Json.obj("Library" -> Json.Null)
         }
     }
 
-  implicit val unitEncoder: Encoder[UnitDefinition]             = ???
+  // implicit val unitEncoder: Encoder[UnitDefinition]             = ???
   // implicit val unitEncoder: Encoder[Either[MagnitudeSystem, SurfaceBrightness]] =
   //   new Encoder[Either[MagnitudeSystem, SurfaceBrightness]] {
   //     def apply(a: Either[MagnitudeSystem, SurfaceBrightness]): Json =
