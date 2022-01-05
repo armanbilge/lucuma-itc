@@ -20,4 +20,5 @@ package object syntax {
       with ToHIIRegionSpectrumOps
       with ToPlanetaryNebulaSpectrumOps
       with ToQuasarSpectrumOps
+      with ToCoolStarModelOps
 }

@@ -3,7 +3,7 @@
 
 package lucuma.itc
 
-import coulomb.define.UnitDefinition
+// import coulomb.define.UnitDefinition
 import io.circe.Encoder
 import io.circe.Json
 import io.circe.generic.semiauto._
@@ -97,6 +97,8 @@ object ItcSourceDefinition {
           case PlanetaryNebula(s) =>
             Json.obj("Library" -> Json.obj("LibraryNonStar" -> Json.fromString(s.ocs2Tag)))
           case Quasar(s)          =>
+            Json.obj("Library" -> Json.obj("LibraryNonStar" -> Json.fromString(s.ocs2Tag)))
+          case s: CoolStarModel   =>
             Json.obj("Library" -> Json.obj("LibraryNonStar" -> Json.fromString(s.ocs2Tag)))
           case _                  => // TODO CoolStar and UserDefined
             Json.obj("Library" -> Json.Null)

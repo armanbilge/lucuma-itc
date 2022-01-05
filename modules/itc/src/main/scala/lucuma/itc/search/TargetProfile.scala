@@ -9,7 +9,7 @@ import lucuma.core.enum.Band
 import lucuma.core.math.BrightnessValue
 import lucuma.core.model.BandBrightness
 import lucuma.core.math.BrightnessUnits
-import coulomb.define.UnitDefinition
+// import coulomb.define.UnitDefinition
 
 /** Target properties we need to know at phase zero. */
 final case class TargetProfile(

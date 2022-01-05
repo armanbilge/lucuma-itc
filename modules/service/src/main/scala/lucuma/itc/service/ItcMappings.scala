@@ -264,7 +264,7 @@ object ItcMapping extends Encoders {
               }
               itc
                 .calculate(
-                  TargetProfile(sp, b, rs),
+                  TargetProfile(sp, sd, rs),
                   specMode,
                   c,
                   sn.value
@@ -541,24 +541,25 @@ object ItcMapping extends Encoders {
                  )
                 )
               ) =>
-            val b = MagnitudeBand.fromTag(band.fromScreamingSnakeCase)
-            val v = bigDecimalValue(value).flatMap(MagnitudeValue.fromBigDecimal.getOption)
-            val e = bigDecimalValue(error).flatMap(MagnitudeValue.fromBigDecimal.getOption)
-            val s = sys match {
-              case TypedEnumValue(EnumValue(s, _, _, _)) =>
-                MagnitudeSystem
-                  .fromTag(s.fromScreamingSnakeCase)
-                  .orElse(MagnitudeSystem.fromTag(s))
-              case UntypedEnumValue(s)                   =>
-                MagnitudeSystem
-                  .fromTag(s.fromScreamingSnakeCase)
-                  .orElse(MagnitudeSystem.fromTag(s))
-              case _                                     => none
-            }
-            (v, b, s)
-              .mapN(Magnitude(_, _, e, _))
-              .map(cursorEnvAdd("magnitude", _)(i))
-              .getOrElse(i.addProblem("Cannot parse magnitude"))
+            // val b = MagnitudeBand.fromTag(band.fromScreamingSnakeCase)
+            // val v = bigDecimalValue(value).flatMap(MagnitudeValue.fromBigDecimal.getOption)
+            // val e = bigDecimalValue(error).flatMap(MagnitudeValue.fromBigDecimal.getOption)
+            // val s = sys match {
+            //   case TypedEnumValue(EnumValue(s, _, _, _)) =>
+            //     MagnitudeSystem
+            //       .fromTag(s.fromScreamingSnakeCase)
+            //       .orElse(MagnitudeSystem.fromTag(s))
+            //   case UntypedEnumValue(s)                   =>
+            //     MagnitudeSystem
+            //       .fromTag(s.fromScreamingSnakeCase)
+            //       .orElse(MagnitudeSystem.fromTag(s))
+            //   case _                                     => none
+            // }
+            // (v, b, s)
+            //   .mapN(Magnitude(_, _, e, _))
+            //   .map(cursorEnvAdd("magnitude", _)(i))
+            //   .getOrElse(i.addProblem("Cannot parse magnitude"))
+            i.addProblem("Cannot parse magnitude")
         }
 
         def instrumentModesPartial: PartialFunction[(IorNec[Problem, Environment], (String, Value)),
